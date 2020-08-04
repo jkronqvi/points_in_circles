@@ -7,6 +7,10 @@ There are two versions of each problem, one with the Big-M formulation and one w
 
 These test problems are designed to be challenging both due to the nonlinearity and the combinatorial aspects. It is well known that it is challenging to create and accurate polyhedral outer approximation of an m-dimensional ball without any reformulations [4, 5], and this renders the problems challenging for polyhedral outer approximation based solvers.
 
+The names of the problems also describes the main properties, e.g, the instance p_ball_30b_10p_2d_H contains 30 2-dimentional balls, 10 points and uses the convex hull formulation.
+
+The file "generate_test_instaces.py" contains a simple script for generating test problems of different size with both the big-M and convex hull formulation.
+
 References:
 
 [1] Sawaya NW, Grossmann IE (2007) Computational implementation of nonlinear convex hull reformulation. Computers & Chemical Engineering

@@ -9,7 +9,7 @@ These test problems are designed to be challenging both due to the nonlinearity 
 
 The names of the problems also describes the main properties, e.g, the instance p_ball_30b_10p_2d_H contains 30 2-dimentional balls, 10 points and uses the convex hull formulation.
 
-The file "generate_test_instaces.py" contains a simple script for generating test problems of different size with both the big-M and convex hull formulation.
+The file "generate_test_problems" contains a simple puthon script for generating test problems of different size with both the big-M and convex hull formulation using Pyomo.
 
 References:
 

@@ -1,0 +1,135 @@
+###############################################################################################################
+# Simple script for generating test problems in Pyomo with both the big-M and convex hull formulation
+
+from pyomo.environ import *
+import random as rnd
+import numpy as np
+
+
+# User inputs
+dimension =2    # dimensions of the balls
+circles =10    # number of circles/balls
+points = 5     # how many points to assign to a circle/ball
+
+def Generate_circle_centers(dimension,centers):
+    data = np.random.rand(dimension,centers)*10
+    return data
+
+def get_big_M(data,centers):
+    M = {}
+    for i in range(centers):
+        M[i] = 0
+        for j in range(centers):
+            dist =(np.linalg.norm((data[:,i]-data[:,j])) + 1)
+            if (dist**2-1) > M[i]:
+                M[i] = (dist**2-1)
+    return M
+
+
+data = Generate_circle_centers(dimension,circles)
+M = get_big_M(data,circles)
+
+
+model = ConcreteModel()
+model.circles = RangeSet(1,circles)
+model.points = RangeSet(1,points)
+model.dimension = RangeSet(1,dimension)
+
+
+model.x = Var(model.dimension, model.points, bounds=(0,10))
+model.l1 = Var(model.points, model.points,model.dimension, bounds=(0,10))
+
+model.b = Var(model.circles, model.points, domain=Binary)
+
+
+model.cons = ConstraintList()
+obj = 0
+for p1 in model.points:
+    for p2 in model.points:
+        if p1 !=p2 and p1<p2:  # dont include distances twice
+            for dim in model.dimension:
+                model.cons.add(expr = (model.x[dim,p1] - model.x[dim,p2]) <= model.l1[p1,p2,dim])
+                model.cons.add(expr = -(model.x[dim, p1] - model.x[dim, p2]) <= model.l1[p1, p2, dim])
+
+for p1 in model.points:
+    for p2 in model.points:
+        if p1 !=p2 and p1<p2:
+            for dim in model.dimension:
+                obj +=  model.l1[p1, p2, dim]
+
+model.obj = Objective(expr =obj)
+
+for p in model.points:
+    for c in model.circles:
+        model.cons.add(expr = (sum((data[i-1][c-1]-model.x[i,p])**2 for i in model.dimension))  <= 1 + M[c-1]*(1-model.b[c,p]))
+    model.cons.add(expr = sum(model.b[c,p] for c in model.circles) == 1)
+
+for c in model.circles:
+    model.cons.add(expr=sum(model.b[c, p] for p in model.points) <= 1)
+
+
+for p1 in model.points:
+        if p1 < points:
+            model.cons.add(expr= model.x[1,p1] <= model.x[1,p1+1])
+
+
+gurobi = SolverFactory('gurobi')
+results = gurobi.solve(model, tee=True, keepfiles=True)
+
+
+# Form convex hull model
+epsilon=1e-9
+model_hull = ConcreteModel()
+model_hull.circles = RangeSet(1,circles)
+model_hull.points = RangeSet(1,points)
+model_hull.dimension = RangeSet(1,dimension)
+model_hull.x = Var(model_hull.dimension, model_hull.points, bounds=(0,10))
+model_hull.nu_x = Var(model_hull.dimension, model_hull.points, model_hull.circles, bounds=(0,10))
+model_hull.l1 = Var(model_hull.points, model_hull.points,model_hull.dimension, bounds=(0,10))
+model_hull.b = Var(model_hull.circles, model_hull.points, domain=Binary)
+
+
+model_hull.cons = ConstraintList()
+obj = 0
+for p1 in model_hull.points:
+    for p2 in model_hull.points:
+        if p1 !=p2 and p1<p2:
+            for dim in model_hull.dimension:
+                model_hull.cons.add(expr = (model_hull.x[dim,p1] - model_hull.x[dim,p2]) <= model_hull.l1[p1,p2,dim])
+                model_hull.cons.add(expr = -(model_hull.x[dim, p1] - model_hull.x[dim, p2]) <= model_hull.l1[p1, p2, dim])
+
+for p1 in model_hull.points:
+    for p2 in model_hull.points:
+        if p1 !=p2 and p1<p2:
+            for dim in model_hull.dimension:
+                obj +=  model_hull.l1[p1, p2, dim]
+
+
+
+model_hull.obj = Objective(expr = obj)
+
+for p in model_hull.points:
+    for c in model_hull.circles:
+       # model_hull.cons.add(expr = (epsilon+model_hull.b[c,p])*(sum((data[i-1][c-1]-(model_hull.nu_x[i,p,c]/(epsilon+model_hull.b[c,p])))**2 for i in model_hull.dimension))  <= 0.0001 + (epsilon+model_hull.b[c,p]))
+       model_hull.cons.add(expr=((1-epsilon)*model_hull.b[c, p] + epsilon) * (sum(
+           (data[i - 1][c - 1] - (model_hull.nu_x[i, p, c] / ((1-epsilon)*model_hull.b[c, p] + epsilon))) ** 2 for i in
+           model_hull.dimension) -1) - epsilon*(sum((data[i - 1][c - 1] - 0)** 2 for i in model_hull.dimension)-1)*(1-model_hull.b[c, p]) <= 0)
+
+    model_hull.cons.add(expr = sum(model_hull.b[c,p] for c in model_hull.circles) == 1)
+
+for c in model_hull.circles:
+    model_hull.cons.add(expr=sum(model_hull.b[c, p] for p in model_hull.points) <= 1)
+
+for p in model_hull.points:
+    for i in model_hull.dimension:
+        model_hull.cons.add(expr=sum(model_hull.nu_x[i,p,c] for c in model_hull.circles) == model_hull.x[i,p])
+
+for p in model_hull.points:
+    for i in model_hull.dimension:
+        for c in model_hull.circles:
+            model_hull.cons.add(expr=model_hull.nu_x[i,p,c] <= 10*model_hull.b[c, p])
+
+for p1 in model_hull.points:
+        if p1 < points:
+            model_hull.cons.add(expr= model_hull.x[1,p1] <= model_hull.x[1,p1+1])
+

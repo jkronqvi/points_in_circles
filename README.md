@@ -5,11 +5,16 @@ The underlying optimization task is simple, select n-points in m-dimensional bal
 
 There are two versions of each problem, one with the Big-M formulation and one wtith the convex hull formulation presented in [1]. The convex hull models all have the _H extension to the file name. All models have been generated with Pyomo modelling framework [2,3].
 
+These test problems are designed to be challenging both due to the nonlinearity and the combinatorial aspects. It is well known that it is challenging to create and accurate polyhedral outer approximation of an m-dimensional ball without any reformulations [4, 5], and this renders the problems challenging for polyhedral outer approximation based solvers.
+
 References:
 
-[1] Sawaya  NW,  Grossmann  IE  (2007)  Computational  implementation  of  non-linear  convex  hull  reformulation.  Computers  &  Chemical  Engineering
+[1] Sawaya NW, Grossmann IE (2007) Computational implementation of nonlinear convex hull reformulation. Computers & Chemical Engineering
 
 [2] Hart WE, Laird CD, Watson J-P, Woodruff DL, Hackebeil GA, Nicholson BL, Siirola JD (2017) Pyomo – Optimization Modeling in Python. Second Edition.  Vol. 67. Springer.
 
 [3] Hart WE, Watson J-P, Woodruff DL (2011) Pyomo: modeling and solving mathematical programs in Python. Mathematical Programming Computation.
 
+[4] Hijazi H, Bonami P, Ouorou A (2013) An outer-inner approximation for separable mixed-integer nonlinear programs. INFORMS Journal on Computing.
+
+[5] Kronqvist J, Lundell A, Westerlund T (2018) Reformulations for utilizing separability when solving convex MINLP problems. Journal of Global Optimization.

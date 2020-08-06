@@ -1,6 +1,6 @@
 # Collection of some convex MINLP test problems
 This repository contains a script for generating convex MINLP problems and a collection of MINLP test instances available in both .nl and .gms format. 
-Please reference this work as
+Please cite this work as
 ```
 @article{JKMINLP2020,
   author  = {Jan Kronqvist and Ruth Misener},

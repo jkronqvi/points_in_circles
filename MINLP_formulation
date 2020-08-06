@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{url}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\begin{document}
+\title{Convex MINLP formulations}
+\maketitle
+More details are given in the paper Kronqvist and Misener (2020), and a preprint is available from \url{ http://www.optimization-online.org/DB_HTML/2020/08/7957.html}
+\section{Big-M formulation}
+Using the big-M formulation the problem can be written as
+\begin{equation}
+\begin{aligned}
+\label{eq:p_in_b}
+    &\min &&\sum_{i=1}^n\sum_{j=i+1}^n \sum_{k=1}^m d^{i,j}_k\\
+    & && d^{i,j}_k \geq p^i_k - p^j_k  &&& \forall k \in D,\  \forall i \in P, \  \forall j \in P^i,\\ 
+    & && d^{i,j}_k \geq p^j_k - p^i_k &&&\forall k \in D,\  \forall i \in P, \  \forall j \in P^i,\\
+    & && \sum_{k=1}^m \left( p^i_k - c^r_k\right)^2 \leq 1 + M_r(1-b_{i,r}) &&&\forall i \in P,\ \forall r \in B, \\
+    & && \sum_{r=1}^l b_{i,r} =1 &&& \forall i \in P, \\
+    & && \sum_{i=1}^n b_{i,r} \leq 1 &&& \forall r \in B, \\
+        & && p^i_1 \leq p^{i+1}_1 &&&\forall i \in P \setminus n,\\
+    &  && b_{i,r} \in \{0,1\} &&& \forall i \in P, \ \forall r \in B,\\
+    & &&\textbf{d}^{i,j} \in \left[0, 10\right]^m &&&\ \forall i \in P, \  \forall j \in P^i,\\ 
+    & && \textbf{p}^{i} \in \left[0, 10\right]^m &&&\ \forall i \in P,\\
+\end{aligned}
+\end{equation}
+where $M_r$ are sufficiently large constants. For these problems the smallest valid $M_r$ is simply given by
+\begin{equation}
+    M_r = \max_{i\in B} \left\{ \left(\norm{\textbf{c}^r-\textbf{c}^i}_2+1\right)^2-1 \right\}.
+\end{equation}
+ Here, $\textbf{c}^i\in \mathbb{R}^m$ denotes the center of ball $i$ and $c^i_1$ refers to the first coordinate of the center. Similarly, $\textbf{p}^i\in \mathbb{R}^m$ refers to point $i$ and $p^i_1$ is the first coordinate of the point. To simplify the notation, we use the sets $D = \{1, 2, \dots, m\}$, $P = \{1, 2, \dots, n\}$, $P^i = \{i+1, i+2, \dots, n\}$, and $B = \{1, 2, \dots, l\}$. The binary variable $b_{i,r}$ selects if point $i$ is assigned to ball $r$. The $\ell_1$-distance is represented by linear constraints and by the auxiliary variables $\textbf{d}^{i,j} \in \mathbb{R}^m$. As before, $d^{i,j}_k$ refers to the $k$-th component of the vector $\textbf{d}^{i,j}$. The problem formulation also contains an ordering constraint of the points along the first coordinate to reduce symmetries.  
+ 
+\section{Convex hull formulation}
+Using the convex hull formulation presented by Sawaya and Grossmann (2007), the problem can then be formulated as
+
+\begin{equation}
+\begin{aligned}
+\label{eq:p_in_b}
+    &\min &&\sum_{i=1}^n\sum_{j=i+1}^n \sum_{k=1}^m d^{i,j}_k\\
+    & && d^{i,j}_k \geq p^i_k - p^j_k  &&& \forall k \in D,\  \forall i \in P, \  \forall j \in P^i,\\ 
+    & && d^{i,j}_k \geq p^j_k - p^i_k &&&\forall k \in D,\  \forall i \in P, \  \forall j \in P^i,\\
+    & && ((1-\epsilon){b_{i,r}} +\epsilon)\left(\norm{\frac{\mathbf{\nu}^{\textbf{p}^i}_r}{(1-\epsilon){b_{i,r}} +\epsilon} - c^r}_2^2 -1 \right)\\ & &&-\epsilon\left(\norm{c^r}_2^2 -1 \right)(1-{b_{i,r}}) \leq 0 \quad &&&\forall i \in P,\ \forall r \in B,\\
+    & && \sum_{r=1}^l b_{i,r} =1 &&& \forall i \in P, \\
+    & && \sum_{i=1}^n b_{i,r} \leq 1 &&& \forall r \in B, \\
+    & && p^i_1 \leq p^{i+1}_1 &&&\forall i \in P \setminus n,\\
+    & &&\sum_{r=1}^l \mathbf{\nu}^{\textbf{p}^i}_r = \textbf{p}^i &&&\forall i \in P\\
+   & &&\mathbf{0} \leq \mathbf{\nu}^{\textbf{p}^i}_r \leq \mathbf{10}\cdot b_{i,r} &&&\forall i \in P, \forall r \in B,\\
+   &  && b_{i,r} \in \{0,1\} &&& \forall i \in P, \ \forall r \in B,\\
+    & &&\textbf{d}^{i,j} \in \left[0, 10\right]^m &&&\ \forall i \in P, \  \forall j \in P^i,\\ 
+    & && \textbf{p}^{i} \in \left[0, 10\right]^m &&&\ \forall i \in P,\\
+   &  && \mathbf{\nu}^{\textbf{p}^i}_r \in [0,10]^m &&&\ \forall i \in P,\ \forall r \in B.
+\end{aligned}
+\end{equation}
+Here we are using the same notation as in the big-M formulation, and the variables  $\mathbf{\nu}^{\textbf{p}^i}_r \in \mathbb{R}^m$ are ``copies'' of the variables $\textbf{p}^i$. Here we use $\epsilon=10^{-9}$ to avoid numerical difficulties. 
+\end{document}

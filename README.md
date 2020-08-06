@@ -13,7 +13,7 @@ Please reference this work as
 # Background
 The underlying optimization task is simple, select n-points in m-dimensional balls, such that the l1-distance between all points is minimized. Only one point can be assigned to each ball, and in total there are l-balls with radius one. 
 
-There are two versions of each problem, one with the Big-M formulation and one with the convex hull formulation presented in [1]. The convex hull models all have the _H extension to the file name. All models have been generated with Pyomo modelling framework [2,3].
+There are two versions of each problem, one with the Big-M formulation and one with the convex hull formulation presented in [1]. The convex hull models all have the _H extension to the file name. All models have been generated with Pyomo modelling framework [2,3]. The mathematical models are described in "Problem_formulation.pdf".
 
 These test problems are designed to be challenging both due to the nonlinearity and the combinatorial aspects. It is well known that it is challenging to create and accurate polyhedral outer approximation of an m-dimensional ball without any reformulations [4, 5], and this renders the problems challenging for polyhedral outer approximation-based solvers.
 

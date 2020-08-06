@@ -2,7 +2,7 @@
 This repository contains a script for generating convex MINLP problems and a collection of MINLP test instances available in both .nl and .gms format. 
 Please reference this work as
 ```
-@article{JK,
+@article{JKMINLP2020,
   author  = {Jan Kronqvist and Ruth Misener},
   title   = {A disjunctive cut strengthening technique for convex MINLP},
   journal = {Submitted to Optimization and Engineering},

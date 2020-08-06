@@ -6,7 +6,7 @@ Please reference this work as
   author  = {Jan Kronqvist and Ruth Misener},
   title   = {A disjunctive cut strengthening technique for convex MINLP},
   journal = {Submitted to Optimization and Engineering},
-  url     = {Optimization Online......}
+  url     = {http://www.optimization-online.org/DB_HTML/2020/08/7957.html}
 }
 ```
 

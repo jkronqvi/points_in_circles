@@ -1,6 +1,16 @@
 # Collection of some convex MINLP test problems
-This repository contains a collection of MINLP test instances available in both .nl and .gms format.
+This repository contains a script for generating convex MINLP problems and a collection of MINLP test instances available in both .nl and .gms format. 
+Please reference this work as
+```bash
+@article{JK,
+  author  = {Jan Kronqvist and Ruth Misener},
+  title   = {A disjunctive cut strengthening technique for convex MINLP},
+  journal = {Submitted to Optimization and Engineering},
+  url     = {Optimization Online......}
+}
+```
 
+# Background
 The underlying optimization task is simple, select n-points in m-dimensional balls, such that the l1-distance between all points is minimized. Only one point can be assigned to each ball, and in total there are l-balls with radius one. 
 
 There are two versions of each problem, one with the Big-M formulation and one with the convex hull formulation presented in [1]. The convex hull models all have the _H extension to the file name. All models have been generated with Pyomo modelling framework [2,3].
@@ -11,7 +21,7 @@ The names of the problems also describe the main properties, e.g, the instance p
 
 The file "generate_test_problems" contains a simple python script for generating test problems of different size with both the big-M and convex hull formulation using Pyomo.
 
-References:
+ References:
 
 [1] Sawaya NW, Grossmann IE (2007) Computational implementation of nonlinear convex hull reformulation. Computers & Chemical Engineering
 

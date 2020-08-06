@@ -32,3 +32,6 @@ The file "generate_test_problems" contains a simple python script for generating
 [4] Hijazi H, Bonami P, Ouorou A (2013) An outer-inner approximation for separable mixed-integer nonlinear programs. INFORMS Journal on Computing.
 
 [5] Kronqvist J, Lundell A, Westerlund T (2018) Reformulations for utilizing separability when solving convex MINLP problems. Journal of Global Optimization.
+
+# Acknowledgement
+The work was funded by a Newton International Fellowship by the Royal Society (NIF\R1\182194), a grant by the Swedish Cultural Foundation in Finland to JK, and by an Engineering & Physical Sciences Research Council Research Fellowship (EP/P016871/1).

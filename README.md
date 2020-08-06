@@ -5,7 +5,7 @@ Please reference this work as
 @article{JKMINLP2020,
   author  = {Jan Kronqvist and Ruth Misener},
   title   = {A disjunctive cut strengthening technique for convex MINLP},
-  journal = {Submitted to Optimization and Engineering},
+  journal = {Submitted to Optimization and Engineering, preprint available on Optimization Online},
   url     = {http://www.optimization-online.org/DB_HTML/2020/08/7957.html}
 }
 ```
@@ -32,6 +32,9 @@ The file "generate_test_problems" contains a simple python script for generating
 [4] Hijazi H, Bonami P, Ouorou A (2013) An outer-inner approximation for separable mixed-integer nonlinear programs. INFORMS Journal on Computing.
 
 [5] Kronqvist J, Lundell A, Westerlund T (2018) Reformulations for utilizing separability when solving convex MINLP problems. Journal of Global Optimization.
+
+# Author
+Jan Kronqvist - Imperial College London 
 
 # Acknowledgement
 The work was funded by a Newton International Fellowship by the Royal Society (NIF\R1\182194), a grant by the Swedish Cultural Foundation in Finland, and by an Engineering & Physical Sciences Research Council Research Fellowship (EP/P016871/1).

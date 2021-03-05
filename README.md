@@ -9,6 +9,8 @@ Please cite this work as
   url     = {http://www.optimization-online.org/DB_HTML/2020/08/7957.html}
 }
 ```
+A presentation of the work is avaialbe on https://youtu.be/5xRgT_FhWow
+
 
 # Background
 The underlying optimization task is simple, select n-points in m-dimensional balls, such that the l1-distance between all points is minimized. Only one point can be assigned to each ball, and in total there are l-balls with radius one. 
